@@ -6,7 +6,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Course, AttendanceRecord, ActiveSession, RecentActivity } from '../types';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { STUDENT_ROSTER } from '../lib/studentsData';
 
 interface AttendanceContextProps {
   currentUser: User | null;
@@ -45,7 +44,17 @@ const SEED_USERS: User[] = [
     role: 'admin',
     avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200'
   },
-  ...STUDENT_ROSTER
+  {
+    id: 'student_hopeson',
+    name: 'Hopeson Wosornu He-eve',
+    email: 'hopeson.wosornu@academiatracker.org',
+    role: 'student',
+    studentId: '2526403377',
+    department: 'Information Technology',
+    level: '100',
+    degreeProgram: 'BSc. Information Technology',
+    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200'
+  }
 ];
 
 const SEED_COURSES: Course[] = [
