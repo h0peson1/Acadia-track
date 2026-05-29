@@ -590,7 +590,19 @@ export default function AdminPortal({ currentTab, setTab, onOpenExport }: AdminP
             {/* Student grid cards matching design specifications */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {students.filter(s => s.name.toLowerCase().includes(studentSearch.toLowerCase())).map((student) => {
-                const attends = student.id === 'student_john' ? 92 : student.id === 'student_sarah' ? 96 : 85;
+                const sRecords = records.filter(r => r.studentId === student.studentId);
+                const sPresent = sRecords.filter(r => r.status === 'Present').length;
+                const sLate = sRecords.filter(r => r.status === 'Late').length;
+                const sAbsent = sRecords.filter(r => r.status === 'Absent').length;
+                const sTotal = sPresent + sLate + sAbsent;
+                
+                const attends = student.id === 'student_john' 
+                  ? 92 
+                  : student.id === 'student_sarah' 
+                  ? 96 
+                  : sTotal > 0 
+                  ? Math.round(((sPresent + sLate) / sTotal) * 100) 
+                  : 0;
                 
                 return (
                   <article 
@@ -880,28 +892,37 @@ export default function AdminPortal({ currentTab, setTab, onOpenExport }: AdminP
                 {/* Specific student metrics boxes block matching sheets */}
                 <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Calculated Statistics</h4>
                 
-                <div className="grid grid-cols-3 gap-3 mb-6 font-semibold">
-                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-center">
-                    <span className="text-[9px] block font-mono text-slate-400 uppercase">PRESENT</span>
-                    <span className="text-xl text-indigo-600 font-bold">
-                      {selectedStudent.id === 'student_john' ? 18 : selectedStudent.id === 'student_sarah' ? 24 : 14}
-                    </span>
-                  </div>
+                {(() => {
+                  const sRecords = records.filter(r => r.studentId === selectedStudent.studentId);
+                  const presentCount = selectedStudent.id === 'student_john' ? 18 : selectedStudent.id === 'student_sarah' ? 24 : sRecords.filter(r => r.status === 'Present').length;
+                  const absentCount = selectedStudent.id === 'student_john' ? 2 : selectedStudent.id === 'student_sarah' ? 0 : sRecords.filter(r => r.status === 'Absent').length;
+                  const lateCount = selectedStudent.id === 'student_john' ? 1 : selectedStudent.id === 'student_sarah' ? 1 : sRecords.filter(r => r.status === 'Late').length;
+                  
+                  return (
+                    <div className="grid grid-cols-3 gap-3 mb-6 font-semibold">
+                      <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-center">
+                        <span className="text-[9px] block font-mono text-slate-400 uppercase">PRESENT</span>
+                        <span className="text-xl text-indigo-600 font-bold">
+                          {presentCount}
+                        </span>
+                      </div>
 
-                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-center">
-                    <span className="text-[9px] block font-mono text-slate-400 uppercase">ABSENT</span>
-                    <span className="text-xl text-rose-600 font-bold">
-                      {selectedStudent.id === 'student_john' ? 2 : selectedStudent.id === 'student_sarah' ? 0 : 5}
-                    </span>
-                  </div>
+                      <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-center">
+                        <span className="text-[9px] block font-mono text-slate-400 uppercase">ABSENT</span>
+                        <span className="text-xl text-rose-600 font-bold">
+                          {absentCount}
+                        </span>
+                      </div>
 
-                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-center">
-                    <span className="text-[9px] block font-mono text-slate-400 uppercase">LATE</span>
-                    <span className="text-xl text-amber-600 font-bold">
-                      {selectedStudent.id === 'student_john' ? 1 : selectedStudent.id === 'student_sarah' ? 1 : 2}
-                    </span>
-                  </div>
-                </div>
+                      <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-center">
+                        <span className="text-[9px] block font-mono text-slate-400 uppercase">LATE</span>
+                        <span className="text-xl text-amber-600 font-bold">
+                          {lateCount}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 {/* Filter and roster checklist history for this student */}
                 <div className="flex items-center justify-between mb-3.5">
