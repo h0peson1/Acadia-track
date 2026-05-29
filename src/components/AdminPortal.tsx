@@ -98,12 +98,19 @@ export default function AdminPortal({ currentTab, setTab, onOpenExport }: AdminP
   const totalEnrolled = students.length;
   const todayCheckedInCount = records.filter(r => r && r.date === new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' })).length;
 
+  // Calculate overall presence rate from actual records
+  const totalPresenceRecords = records.length;
+  const presentOrLateRecords = records.filter(r => r && (r.status === 'Present' || r.status === 'Late')).length;
+  const overallPresenceRate = totalPresenceRecords > 0 
+    ? Math.round((presentOrLateRecords / totalPresenceRecords) * 100) 
+    : 0;
+
   // Dynamic benchmark averages derived from current course list
   const coursesWithClasses = courses.filter(c => c.totalClasses > 0);
   const coursePercentSum = coursesWithClasses.reduce((sum, c) => sum + c.attendancePercentage, 0);
   const calculatedAverage = coursesWithClasses.length > 0 
     ? Math.round(coursePercentSum / coursesWithClasses.length) 
-    : 85; // Default to 85% if no sessions are logged yet to look clean
+    : 0; // Default to 0% if no sessions are logged yet
 
   // Derive highest and lowest scores rosters
   const sortedCourses = [...courses].sort((a, b) => b.attendancePercentage - a.attendancePercentage);
@@ -188,7 +195,7 @@ export default function AdminPortal({ currentTab, setTab, onOpenExport }: AdminP
                   </h3>
                   <p className="text-[9px] text-emerald-600 uppercase font-mono tracking-widest mt-1.5 font-bold flex items-center gap-1">
                     <ArrowUpRight className="w-3.5 h-3.5" />
-                    <span>81% Term Presence Avg</span>
+                    <span>{overallPresenceRate}% Term Presence Avg</span>
                   </p>
                 </div>
               </article>
