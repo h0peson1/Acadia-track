@@ -34,15 +34,13 @@ const SEED_USERS: User[] = [
     id: 'admin_alex',
     name: 'Alex Johnson',
     email: 'hw055277@gmail.com',
-    role: 'admin',
-    avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200'
+    role: 'admin'
   },
   {
     id: 'admin_josiah',
     name: 'Josiah Kwadwo Asante',
     email: 'josiahokatakyiekwadwoasante@gmail.com',
-    role: 'admin',
-    avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200'
+    role: 'admin'
   },
   {
     id: 'student_hopeson',
@@ -52,8 +50,7 @@ const SEED_USERS: User[] = [
     studentId: '2526403377',
     department: 'Information Technology',
     level: '100',
-    degreeProgram: 'BSc. Information Technology',
-    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200'
+    degreeProgram: 'BSc. Information Technology'
   }
 ];
 
