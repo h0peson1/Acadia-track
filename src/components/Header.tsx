@@ -20,7 +20,7 @@ interface HeaderProps {
 }
 
 export default function Header({ currentTab, setTab }: HeaderProps) {
-  const { currentUser, activeSession } = useAttendance();
+  const { currentUser, activeSession, isCloudConnected } = useAttendance();
 
 
   if (!currentUser) return null;
