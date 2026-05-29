@@ -129,6 +129,7 @@ export default function StudentPortal({ currentTab, setTab, onOpenExport }: Stud
 
   // Filter logic for attendance records
   const filteredRecords = records.filter(rec => {
+    if (rec.studentId !== currentUser.studentId) return false;
     if (semesterFilter !== 'Spring 2024') return false;
     if (courseFilter !== 'All' && rec.courseCode !== courseFilter) return false;
     
@@ -140,12 +141,13 @@ export default function StudentPortal({ currentTab, setTab, onOpenExport }: Stud
   });
 
   // Calculate stats logic
-  const presentCount = records.filter(r => r.status === 'Present').length;
-  const absentCount = records.filter(r => r.status === 'Absent').length;
-  const lateCount = records.filter(r => r.status === 'Late').length;
-  const overallRate = records.length > 0 
-    ? Math.round(((presentCount + lateCount) / records.length) * 100) 
-    : 92;
+  const studentRecords = records.filter(r => r && r.studentId === currentUser.studentId);
+  const presentCount = studentRecords.filter(r => r.status === 'Present').length;
+  const absentCount = studentRecords.filter(r => r.status === 'Absent').length;
+  const lateCount = studentRecords.filter(r => r.status === 'Late').length;
+  const overallRate = studentRecords.length > 0 
+    ? Math.round(((presentCount + lateCount) / studentRecords.length) * 100) 
+    : 0;
 
   // Pagination bounds
   const totalItems = filteredRecords.length;
