@@ -6,6 +6,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Course, AttendanceRecord, ActiveSession, RecentActivity } from '../types';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { STUDENT_ROSTER } from '../lib/studentsData';
 
 interface AttendanceContextProps {
   currentUser: User | null;
@@ -44,17 +45,7 @@ const SEED_USERS: User[] = [
     role: 'admin',
     avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200'
   },
-  {
-    id: 'student_hopeson',
-    name: 'Hopeson Wosornu He-eve',
-    email: 'hopeson.wosornu@academiatracker.org',
-    role: 'student',
-    studentId: '2526403377',
-    department: 'Information Technology',
-    level: '100',
-    degreeProgram: 'BSc. Information Technology',
-    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200'
-  }
+  ...STUDENT_ROSTER
 ];
 
 const SEED_COURSES: Course[] = [
@@ -828,13 +819,14 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const startNewSession = (courseCode: string, duration: number, radius: number, location: string): string => {
     const generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const dynamicStudentCount = users.filter(u => u.role === 'student').length;
     const newSession: ActiveSession = {
       courseCode,
       duration,
       geofenceRadius: radius,
       code: generatedCode,
       timeLeft: duration * 60,
-      totalStudents: 42,
+      totalStudents: dynamicStudentCount,
       checkedInCount: 0,
       isLive: true,
       checkedInStudentIds: [],
@@ -851,7 +843,7 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         geofence_radius: radius,
         code: generatedCode,
         time_left: duration * 60,
-        total_students: 42,
+        total_students: dynamicStudentCount,
         checked_in_count: 0,
         is_live: true,
         checked_in_student_ids: [],

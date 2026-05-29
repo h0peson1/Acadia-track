@@ -191,7 +191,7 @@ export default function AdminPortal({ currentTab, setTab, onOpenExport }: AdminP
                 </div>
                 <div className="mt-4">
                   <h3 className="text-4xl font-extrabold text-slate-900 tracking-tight">
-                    {todayCheckedInCount} <span className="text-xs text-slate-400 font-bold">/ 120</span>
+                    {todayCheckedInCount} <span className="text-xs text-slate-400 font-bold">/ {totalEnrolled}</span>
                   </h3>
                   <p className="text-[9px] text-emerald-600 uppercase font-mono tracking-widest mt-1.5 font-bold flex items-center gap-1">
                     <ArrowUpRight className="w-3.5 h-3.5" />
@@ -349,7 +349,7 @@ export default function AdminPortal({ currentTab, setTab, onOpenExport }: AdminP
                 <article key={course.code} className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4 flex flex-col justify-between hover:shadow-md transition-colors">
                   <div>
                     <span className="font-mono text-[9px] uppercase tracking-wider text-slate-400 font-bold">
-                      CAPACITY: 42 REGISTERED CANDIDATES
+                      CAPACITY: {totalEnrolled} REGISTERED CANDIDATES
                     </span>
                     <h3 className="text-lg font-bold text-slate-900 mt-1">{course.code}</h3>
                     <p className="text-xs text-indigo-650 font-bold leading-relaxed mt-0.5">{course.name}</p>
@@ -544,7 +544,7 @@ export default function AdminPortal({ currentTab, setTab, onOpenExport }: AdminP
                         <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden mb-1">
                           <div 
                             className="h-full bg-indigo-600 rounded-full transition-all duration-350"
-                            style={{ width: `${Math.min(100, (activeSession.checkedInCount / 4) * 100)}%` }}
+                            style={{ width: `${Math.min(100, (activeSession.checkedInCount / activeSession.totalStudents) * 100)}%` }}
                           />
                         </div>
                         <span className="text-[9px] text-slate-400 block font-bold mt-1">Classroom candidates progress bar list</span>
