@@ -770,18 +770,28 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const lowerEmail = email.toLowerCase().trim();
     if (lowerEmail === 'hw055277@gmail.com' || lowerEmail === 'admin@academiatracker.org' || lowerEmail === 'admin') {
       if (password === 'Admin2025' || password === 'admin123') {
-        setCurrentUser(SEED_USERS[1]);
+        setCurrentUser(SEED_USERS[0]);
         return true;
       }
       return false;
     } else if (lowerEmail === 'josiahokatakyiekwadwoasante@gmail.com' || lowerEmail === 'josiah') {
       if (password === 'Admin2025' || password === 'admin123') {
-        setCurrentUser(SEED_USERS[2]);
+        setCurrentUser(SEED_USERS[1]);
         return true;
       }
       return false;
     } else if (lowerEmail === 'john.m@gctu.edu.gh' || lowerEmail === 'john' || lowerEmail === '25264003378') {
-      setCurrentUser(SEED_USERS[0]);
+      const studentUser = users.find(u => u.email.toLowerCase() === 'john.m@gctu.edu.gh') || {
+        id: 'student_john',
+        name: 'John Mensah',
+        email: 'john.m@gctu.edu.gh',
+        role: 'student',
+        studentId: '25264003378',
+        department: 'Computer Science',
+        level: '100',
+        degreeProgram: 'BSc. Computer Science'
+      };
+      setCurrentUser(studentUser);
       return true;
     }
 
