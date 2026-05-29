@@ -1,0 +1,8 @@
+{
+  "name": "AcademiaTrack",
+  "description": "A robust institutional student and admin attendance tracking portal featuring session codes, GPS verification, history filters, and live analytics dashboards.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
